@@ -39,15 +39,29 @@ router.route("/:id").get(async (req, res) => {
 // add route
 router.route("/add").post(async (req, res) => {
   console.log("req", req.body);
-  const color = req.body.color;
-  const size = Number(req.body.size);
-
   let newTeam;
 
   try {
-    newTeam = new Team({ color, size });
+    let { color, size, name, name2 } = req.body;
+    newTeam = new Team(req.body);
     await newTeam.save();
-    res.json(`New team added! [color:${color}, size:${size}]`);
+    res.json(
+      `New team added! [color:${color}, size:${size}, name:${name}, name2:${name2}]`
+    );
+  } catch (err) {
+    res.status(400).json("Error: " + err);
+  }
+});
+
+// update route
+router.route("/:id").patch(async (req, res) => {
+  try {
+    let { id } = req.params;
+    let { name, name2, color } = req.body;
+
+    let updated = await Team.updateOne({ _id: id }, req.body);
+    console.log(id);
+    res.json(`Team ${id} was updated! [name:${name}, name2:${name2}]`);
   } catch (err) {
     res.status(400).json("Error: " + err);
   }
@@ -55,10 +69,14 @@ router.route("/add").post(async (req, res) => {
 
 // delete route
 router.route("/remove").delete(async (req, res) => {
-  Team.deleteOne({ _id: req.body.id }, err => {
-    if (err) res.status(400).json("Error: " + err);
-    res.json(`Team ${req.body.id} delted!`);
-  });
+  try {
+    let { id } = req.body;
+    let deleted = await Team.deleteOne({ _id: id });
+    if (deleted.deletedCount == 0) res.json(`No Team to delete`);
+    else res.json(`Team ${req.body.id} delted!`);
+  } catch (err) {
+    res.status(400).json("Error: " + err);
+  }
 });
 
 module.exports = router;
