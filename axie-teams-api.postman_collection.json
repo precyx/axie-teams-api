@@ -1,0 +1,142 @@
+{
+	"info": {
+		"_postman_id": "4c4d6475-6281-4f3b-984c-edb048d7da0b",
+		"name": "Axie Teams API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "color",
+							"value": "orange",
+							"type": "text"
+						},
+						{
+							"key": "size",
+							"value": "5",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Test 001",
+							"type": "text"
+						},
+						{
+							"key": "name2",
+							"value": "Test 001",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{localhost5200}}/teams/add",
+					"host": [
+						"{{localhost5200}}"
+					],
+					"path": [
+						"teams",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhost5200}}/teams/",
+					"host": [
+						"{{localhost5200}}"
+					],
+					"path": [
+						"teams",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "?id=5f26e930a0918948708b4428",
+					"query": [
+						{
+							"key": "id",
+							"value": "5f26e930a0918948708b4428"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Single",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "color",
+							"value": "pink",
+							"type": "text"
+						},
+						{
+							"key": "size",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "Test 999",
+							"type": "text"
+						},
+						{
+							"key": "name2",
+							"value": "Test 999",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{localhost5200}}/teams/5f2716211d9c9e75f476f789",
+					"host": [
+						"{{localhost5200}}"
+					],
+					"path": [
+						"teams",
+						"5f2716211d9c9e75f476f789"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
