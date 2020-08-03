@@ -4,26 +4,15 @@ const mongoosePaginate = require("mongoose-paginate-v2");
 const Schema = mongoose.Schema;
 
 // create schema
+// prettier-ignore
 const teamSchema = new Schema(
   {
-    name: {
-      type: String,
-      required: false,
-    },
-    name2: {
-      type: String,
-      required: false,
-    },
-    color: {
-      type: String,
-      required: true,
-      unique: false,
-    },
-    size: {
-      type: String,
-      required: true,
-      unique: false,
-    },
+    name: { type: String, required: true },
+    name2: { type: String },
+    color: { type: String, unique: false },
+    size: { type: String, unique: false },
+    axies: [{id:Number, position:Number}],
+    createdBy: {name:String, address:String},
   },
   {
     timestamps: true,

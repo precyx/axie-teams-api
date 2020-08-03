@@ -3,22 +3,26 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 require("dotenv").config();
+const db = require("./config/db");
 
 // start express
 const app = express();
-const port = process.env.PORT || 5200;
+const port = db.port;
 
-// express middleware
-app.use(bodyParser.urlencoded({ extended: false }));
+// parse requests of content-type - application/json
+app.use(bodyParser.json());
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
 // setup mongoose connection
-const URI = process.env.CONNECTION_URI || "";
+const URI = db.connectionString;
+// prettier-ignore
 mongoose.connect(URI, {
   useNewUrlParser: true,
   useCreateIndex: true,
-  useUnifiedTopology: true,
+  useUnifiedTopology: true
 });
 const connection = mongoose.connection;
 connection.once("open", () => {
