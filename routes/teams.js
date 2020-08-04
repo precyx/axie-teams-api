@@ -3,16 +3,49 @@ let Team = require("../models/team.model");
 
 // get all route
 router.route("/").get(async (req, res) => {
+  let { sortProp, sortDirection, page, limit, filterBy } = req.query;
   let teams;
 
   try {
-    let { sortProp, sortDirection, page, limit } = req.query;
+    let query;
+    query = Team.find();
+
+    // filter
+    let filters = filterBy ? filterBy.split(";") : [];
+    for (let i = 0; i < filters.length; i++) {
+      let filter = filters[i];
+      if (!filter) break;
+
+      let commaSplit = filter.split(",");
+      let key = commaSplit[0]; // property
+      let val = commaSplit[1]; // value
+      let opt = commaSplit[2] || ""; // options
+
+      console.log("key", key);
+      console.log("val", val);
+
+      // multi value
+      if (val.split(":").length > 1) {
+        query.where(key).in(val.split(":"));
+      } else {
+        // single value
+        if (opt == "@stringmatch_any") {
+          query.find({ [key]: { $regex: val, $options: "i" } });
+        } else {
+          query.where(key).equals(val);
+        }
+      }
+    }
+
+    // sort
     let sortQuery = { [sortProp || "_id"]: sortDirection || 1 };
+    query.sort(sortQuery);
+
+    // paginate
     let paginationOptions = {
       page: parseInt(page) || 1,
       limit: parseInt(limit) || 15,
     };
-    let query = Team.find().sort(sortQuery);
     teams = await Team.paginate(query, paginationOptions);
 
     res.json(teams);
@@ -36,6 +69,7 @@ router.route("/:id").get(async (req, res) => {
 // add route
 router.route("/add").post(async (req, res) => {
   console.log("req", req.body);
+  //console.log("re2", req.body.axies);
   let newTeam;
 
   try {
@@ -43,7 +77,7 @@ router.route("/add").post(async (req, res) => {
     newTeam = new Team(req.body);
     await newTeam.save();
 
-    res.json(`New team added! [color:${color}, size:${size}, name:${name}, name2:${name2}]`);
+    res.json(`New team added! [name:${name}]`);
   } catch (err) {
     res.status(400).json("Error: " + err);
   }
@@ -75,6 +109,17 @@ router.route("/:id").delete(async (req, res) => {
 
     if (deleted.deletedCount == 0) res.json(`No Team found to delete`);
     else res.json(`Team ${req.body.id} delted!`);
+  } catch (err) {
+    res.status(400).json("Error: " + err);
+  }
+});
+
+// delete all route
+router.route("/").delete(async (req, res) => {
+  try {
+    let deleted = await Team.deleteMany({});
+    if (deleted.deletedCount == 0) res.json(`No Teams found to delete`);
+    else res.json(`All Teams deleted!`);
   } catch (err) {
     res.status(400).json("Error: " + err);
   }
