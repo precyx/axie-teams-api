@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "fa8fd0d0-b196-49a2-a555-58900fa56547",
+		"_postman_id": "12905987-cb25-475a-b352-103e8bb6c42a",
 		"name": "Axie Teams API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"New002\",\r\n    \"axies\": [\r\n        {\"id\": 244, \"position\":5, \"bad\": \"bad\"}\r\n    ],\r\n    \"createdBy\": {\"name\":\"Chaz\", \"address\": \"0x2002a\"}\r\n}",
+					"raw": "{\r\n  \"name\": \"New002\",\r\n  \"axies\": [\r\n    {\r\n      \"id\": 244,\r\n      \"image\": \"https://storage.googleapis.com/assets.axieinfinity.com/axies/144309/axie/axie-full-transparent.png\",\r\n      \"genes\": \"2578183236988657015844613360579218257818323698865701584461336057921800214216571305569906707309237683996624181222578183236988657015844613360579218002142165713055699067073092376839966241812225781832369886570158446133605792180021421657130556990672578183236988657015844613360579218002142165713055699067073092376839966241812225781832369886570158446133605792180021421657130556990670730923768399662418122257818323698865701584461336057925781832369886570158446133605792180021421657130556990670730923768399662418122257818323698865701584461336057921800214216571305569906707309237683996624181222578183236988657015844613360579218002142165713055699067073092376839966241812225781832369886570158446133605792180021421657130556990670730923768399662418122218002142165713055699067073092376839966241812207309237683996624181220021421657130556990670730923768399662418122\",\r\n      \"position\": 5,\r\n      \"bad\": \"bad\",\r\n      \"level\": 1,\r\n      \"owner\": \"0xe293390d7651234c6dfb1f41a47358b9377c004f0xe293390d7651234c6dfb1f41a470xe293390d7651234c6dfb1f41a47358b9377c004f0xe293390d7651234c6dfb1f41a47358b9377c004f0xe293390d7651234c6dfb1f41a47358b9377c004f358b9377c004f0xe293390d7651234c6dfb1f41a47358b9377c004f0xe293390d7651234c6dfb1f41a47358b9377c004f\",\r\n      \"parts\": [\r\n        {\r\n          \"id\": \"eyes-lucas0xe293390d7651234c6dfb1f41a47358b9377c004f0xe293390d7651234c6dfb1f41a47358\",\r\n          \"name\": \"Lucas\",\r\n          \"class\": \"Bird\",\r\n          \"type\": \"Eyes\",\r\n          \"bad\": \"bad\",\r\n          \"abilities\": [{\r\n            \"id\": \"Ability #1\",\r\n            \"attack\": 100,\r\n            \"defense\": 50,\r\n            \"energy\": 1,\r\n            \"bad\": \"bad\",\r\n            \"description\": \"Apply poison to target when played in a chain.\",\r\n            \"backgroundUrl\": \"https://storage.googleapis.com/axie-cdn/game/cards/base/bug-back-04.png\",\r\n            \"effectIconUrl\": \"https://storage.googleapis.com/axie-cdn/game/cards/effect-icons/poison.png\"\r\n          }]\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"createdBy\": {\r\n    \"name\": \"Chaz\",\r\n    \"address\": \"0x2002a\"\r\n  },\r\n  \"likes\": 150,\r\n  \"season\": \"5\",\r\n  \"seasons\": [\"5\"]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -38,13 +38,32 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{AxieTeamsApiLocalhost}}/teams/",
+					"raw": "{{AxieTeamsApiLocalhost}}/teams/?sortProp=likes&sortDirection=-1&filterBy=seasons,3:1;name,Jafa,@stringmatch_any",
 					"host": [
 						"{{AxieTeamsApiLocalhost}}"
 					],
 					"path": [
 						"teams",
 						""
+					],
+					"query": [
+						{
+							"key": "sortProp",
+							"value": "likes"
+						},
+						{
+							"key": "sortDirection",
+							"value": "-1"
+						},
+						{
+							"key": "filterOptions",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "filterBy",
+							"value": "seasons,3:1;name,Jafa,@stringmatch_any"
+						}
 					]
 				}
 			},
@@ -108,6 +127,24 @@
 					"path": [
 						"teams",
 						"5f28211fce2c392c889ef859"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete All",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{AxieTeamsApiLocalhost}}/teams/",
+					"host": [
+						"{{AxieTeamsApiLocalhost}}"
+					],
+					"path": [
+						"teams",
+						""
 					]
 				}
 			},
