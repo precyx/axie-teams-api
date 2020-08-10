@@ -3,7 +3,7 @@ let Team = require("../models/team.model");
 
 // get all route
 router.route("/").get(async (req, res) => {
-  let { sortProp, sortDirection, page, limit, filterBy } = req.query;
+  let { sortBy, sortDirection, page, limit, filterBy } = req.query;
   let teams;
 
   try {
@@ -16,17 +16,18 @@ router.route("/").get(async (req, res) => {
       let filter = filters[i];
       if (!filter) break;
 
-      let commaSplit = filter.split(",");
-      let key = commaSplit[0]; // property
-      let val = commaSplit[1]; // value
-      let opt = commaSplit[2] || ""; // options
+      let colonSplit = filter.split(":");
+      let key = colonSplit[0]; // property
+      let val = colonSplit[1]; // value
+      let opt = colonSplit[2] || ""; // options
 
       console.log("key", key);
       console.log("val", val);
 
       // multi value
-      if (val.split(":").length > 1) {
-        query.where(key).in(val.split(":"));
+      let commaSplit = val.split(",");
+      if (commaSplit.length > 1) {
+        query.where(key).in(commaSplit);
       } else {
         // single value
         if (opt == "@stringmatch_any") {
@@ -38,7 +39,7 @@ router.route("/").get(async (req, res) => {
     }
 
     // sort
-    let sortQuery = { [sortProp || "_id"]: sortDirection || 1 };
+    let sortQuery = { [sortBy || "_id"]: sortDirection || 1 };
     query.sort(sortQuery);
 
     // paginate
